@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=360, height=600, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Создание Резюме</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-image: rgb(109, 109, 109);
+            padding: 20px;
+            background-image: url('13.jpg'); /* Замените на URL вашего фото */
+        }
+        .resume-form, .resume-display {
+            max-width: 360px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+        }
+        .resume-form h1, .resume-display h1, .resume-display h2, .resume-display h3 {
+            color: #000000;
+        }
+        .resume-form h1, .resume-display h1 {
+            text-align: center;
+        }
+        .resume-form label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .resume-form input, .resume-form textarea {
+            width: 95%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .resume-form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .resume-form button:hover {
+            background-color: #0056b3;
+        }
+        .resume-display .contact-info, .resume-display .skills, .resume-display .experience, .resume-display .education {
+            margin-bottom: 20px;
+        }
+        .resume-display .contact-info p, .resume-display .skills p, .resume-display .experience p, .resume-display .education p {
+            margin: 0;
+        }
+        .resume-display .skills ul, .resume-display .experience ul, .resume-display .education ul {
+            list-style: none;
+            padding: 0;
+        }
+        .resume-display .skills ul li, .resume-display .experience ul li, .resume-display .education ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-form">
+        <h1>Создание Резюме</h1>
+        <label for="name">Имя</label>
+        <input type="text" id="name" name="name">
+        
+        <label for="email">Почта</label>
+        <input type="email" id="email" name="email">
+        
+        <label for="phone">Телефон</label>
+        <input type="tel" id="phone" name="phone">
+        
+        <label for="city">Город</label>
+        <input type="text" id="city" name="city">
+        
+        <label for="skills">Навыки (через запятую)</label>
+        <input type="text" id="skills" name="skills">
+        
+        <label for="experience">Опыт работы</label>
+        <textarea id="experience" name="experience" rows="5"></textarea>
+        
+        <label for="education">Образование</label>
+        <textarea id="education" name="education" rows="5"></textarea>
+        
+        <button onclick="generateResume()">Создать Резюме</button>
+    </div>
+    
+    <div class="resume-display" style="display: none;">
+        <h1 id="resume-name"></h1>
+        <div class="contact-info">
+            <h2>Контактная информация</h2>
+            <p id="resume-email"></p>
+            <p id="resume-phone"></p>
+            <p id="resume-city"></p>
+        </div>
+        <div class="skills">
+            <h2>Навыки</h2>
+            <ul id="resume-skills"></ul>
+        </div>
+        <div class="experience">
+            <h2>Опыт работы</h2>
+            <p id="resume-experience"></p>
+        </div>
+        <div class="education">
+            <h2>Образование</h2>
+            <p id="resume-education"></p>
+        </div>
+    </div>
+    
+    <script>
+        function generateResume() {
+            // Получение данных формы
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+            const skills = document.getElementById('skills').value.split(',');
+            const experience = document.getElementById('experience').value;
+            const education = document.getElementById('education').value;
+
+            // Создание резюме объекта
+            const resume = {
+                name: name,
+                email: email,
+                phone: phone,
+                city: city,
+                skills: skills.map(skill => skill.trim()),
+                experience: experience,
+                education: education
+            };
+
+            // Сохранение резюме в локальное хранилище
+            let resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+            resumes.push(resume);
+            localStorage.setItem('resumes', JSON.stringify(resumes));
+
+            // Перенаправление на страницу со всеми резюме
+            window.location.href = 'resumes.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=360, height=600, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Все Резюме</title>
+    <style>
+        @font-face {
+            font-family: 'custom';
+            src: url('Inter2.ttf') format('truetype');
+        }
+        body {
+            font-family: 'custom', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 30%;
+            max-width: 300px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            position: fixed;
+            top: 0;
+            left: -100%;
+            height: 100%;
+            transition: left 0.3s;
+        }
+        .sidebar.active {
+            left: 0;
+        }
+        .sidebar h2 {
+            margin-top: 0;
+        }
+        .sidebar input, .sidebar select {
+            width: 90%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .sidebar button {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .sidebar button:hover {
+            background-color: #0056b3;
+        }
+        .content {
+            width: 100%;
+            padding: 20px;
+            height: 100vh;
+            overflow-y: auto;
+            transition: margin-left 0.3s, width 0.3s;
+            box-sizing: border-box;
+        }
+        .content.shift {
+            margin-left: 35%;
+            width: 70%;
+        }
+        .resume {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        .resume h2 {
+            color: #333;
+            font-size: 18px;
+        }
+        .resume h3 {
+            color: #555;
+            font-size: 16px;
+        }
+        .resume p, .resume ul li {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .apply-button, .delete-button {
+            display: inline-block;
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .delete-button {
+            background-color: #FF4C4C;
+        }
+        .delete-button:hover {
+            background-color: #C70000;
+        }
+        .apply-button:hover {
+            background-color: #0056b3;
+        }
+        .toggle-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .toggle-button:hover {
+            background-color: #0056b3;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .order-button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .order-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-button" onclick="toggleSidebar()">Фильтр</button>
+
+    <div class="sidebar" id="sidebar">
+        <h2>Фильтр поиска</h2>
+        <input type="text" id="search-input" placeholder="Поиск по ключевым словам">
+        <select id="city-filter">
+            <option value="">Выберите город</option>
+            <option value="Астана">Астана</option>
+            <option value="Алматы">Алматы</option>
+            <option value="Кокшетау">Кокшетау</option>
+            <option value="Караганда">Караганда</option>
+            <option value="Шымкент">Шымкент</option>
+            <option value="Атырау">Атырау</option>
+            <option value="Актобе">Актобе</option>
+        </select>
+        <select id="experience-filter">
+            <option value="">Выберите опыт</option>
+            <option value="Меньше года">Меньше года</option>
+            <option value="1-3 года">1-3 года</option>
+            <option value="Больше 3 лет">Больше 3 лет</option>
+            <option value="Больше 5 лет">Больше 5 лет</option>
+        </select>
+        <button onclick="search()">Применить фильтр</button>
+        <button onclick="window.location.href='index.html'">Вернуться на главное меню</button>
+    </div>
+
+    <div class="content" id="content">
+        <div class="header">
+            <h1>Все Резюме</h1>
+            <a href="zakaz.html" class="order-button">Разместить заказ</a>
+        </div>
+        <div id="resumes-container"></div>
+    </div>
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            content.classList.toggle('shift');
+        }
+
+        const resumes = JSON.parse(localStorage.getItem('resumes')) || [];
+        const container = document.getElementById('resumes-container');
+
+        function renderResumes(filteredResumes) {
+            container.innerHTML = '';
+            filteredResumes.forEach((resume, index) => {
+                const resumeDiv = document.createElement('div');
+                resumeDiv.classList.add('resume');
+                resumeDiv.innerHTML = `
+                    <h2>${resume.name}</h2>
+                    <div>
+                        <h3>Контактная информация</h3>
+                        <p>Почта: ${resume.email}</p>
+                        <p>Телефон: ${resume.phone}</p>
+                        <p>Город: ${resume.city}</p>
+                    </div>
+                    <div>
+                        <h3>Навыки</h3>
+                        <ul>
+                            ${resume.skills.map(skill => `<li>${skill}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Опыт работы</h3>
+                        <p>${resume.experience}</p>
+                    </div>
+                    <div>
+                        <h3>Образование</h3>
+                        <p>${resume.education}</p>
+                    </div>
+                    <a href="#" class="apply-button">Откликнуться</a>
+                    <button class="delete-button" onclick="deleteResume(${index})">Удалить</button>
+                `;
+                container.appendChild(resumeDiv);
+            });
+        }
+
+        function deleteResume(index) {
+            if (confirm('Вы точно хотите удалить это резюме?')) {
+                resumes.splice(index, 1);
+                localStorage.setItem('resumes', JSON.stringify(resumes));
+                renderResumes(resumes);
+            }
+        }
+
+        function search() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const city = document.getElementById('city-filter').value;
+            const experience = document.getElementById('experience-filter').value;
+
+            const filteredResumes = resumes.filter(resume => {
+                const matchesSearch = resume.name.toLowerCase().includes(searchTerm) ||
+                    resume.skills.some(skill => skill.toLowerCase().includes(searchTerm)) ||
+                    resume.experience.toLowerCase().includes(searchTerm) ||
+                    resume.education.toLowerCase().includes(searchTerm);
+
+                const matchesCity = city ? resume.city === city : true;
+                const matchesExperience = experience ? resume.experience.includes(experience) : true;
+
+                return matchesSearch && matchesCity && matchesExperience;
+            });
+
+            renderResumes(filteredResumes);
+        }
+
+        renderResumes(resumes);
+    </script>
+</body>
+</html>

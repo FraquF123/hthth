@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=360, height=600, initial-scale=1.0">
+    <title>Регистрация</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('12.jpg'); /* Замените на URL вашего фото */
+            background-size: cover;
+            background-position: center;
+        }
+        .container {
+            width: 360px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* Выровнять элементы по левому краю */
+            border: 0px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.6); /* Полупрозрачный фон для контейнера */
+        }
+        .container h1 {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .container label {
+            width: 100%;
+            text-align: left; /* Выровнять текст по левому краю */
+            margin-bottom: 5px;
+        }
+        .container input {
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6); /* Тень */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            box-sizing: border-box;
+        }
+        .container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 20px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Регистрация</h1>
+        <label for="lastname">Фамилия</label>
+        <input type="text" id="lastname" name="lastname">
+        
+        <label for="firstname">Имя</label>
+        <input type="text" id="firstname" name="firstname">
+        
+        <label for="email">Почта</label>
+        <input type="email" id="email" name="email">
+        
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password">
+        
+        <button type="submit">зарегистрироваться</button>
+    </div>
+</body>
+</html>

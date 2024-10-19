@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=360, height=600, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('11.jpg');
+        }
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 360px;
+            height: 80%;
+            max-height: 600px;
+        }
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 90%;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+        }
+        .login-container button {
+            width: 96%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 25px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .login-container .forgot-password {
+            background-color: #6c757d;
+        }
+        .login-container .forgot-password:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Авторизация</h1>
+        <form>
+            <label for="email">Почта</label>
+            <input type="text" id="email" name="email">
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password">
+            <button type="submit">войти</button>
+            <button type="button" class="forgot-password">забыли пароль</button>
+        </form>
+    </div>
+</body>
+</html>

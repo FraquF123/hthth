@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты поиска</title>
+</head>
+<body>
+    <h1>Результаты поиска</h1>
+    <div id="results"></div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        const searchQuery = getQueryParam('q');
+        if (searchQuery) {
+            document.getElementById('results').innerText = `Результаты поиска для: "${searchQuery}"`;
+            // Здесь можно добавить логику для выполнения реального поиска
+        } else {
+            document.getElementById('results').innerText = "Поисковый запрос не найден.";
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разместить заказ</title>
+    <style>
+        @font-face {
+            font-family: 'custom';
+            src: url('Inter2.ttf') format('truetype');
+        }
+        body {
+            font-family: 'custom', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .back-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        .back-link, .menu-link {
+            width: 48%;
+            padding: 15px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .back-link:hover, .menu-link:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Разместить заказ</h1>
+        <form id="order-form">
+            <input type="text" id="project-title" placeholder="Название проекта" required />
+            <textarea id="project-description" placeholder="Описание проекта" required></textarea>
+            <select id="category" required>
+                <option value="" disabled selected>Выберите категорию</option>
+                <option value="Дизайн">Дизайн</option>
+                <option value="Разработка">Разработка</option>
+                <option value="Маркетинг">Маркетинг</option>
+                <option value="Копирайтинг">Копирайтинг</option>
+                <option value="Аналитика">Аналитика</option>
+            </select>
+            <input type="date" id="deadline" required />
+            <button type="submit">Отправить заявку</button>
+        </form>
+        <div class="back-buttons">
+            <a href="index.html" class="back-link">Вернуться на главную</a>
+            <a href="menu.html" class="menu-link">Вернуться в меню</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('order-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const title = document.getElementById('project-title').value;
+            const description = document.getElementById('project-description').value;
+            const category = document.getElementById('category').value;
+            const deadline = document.getElementById('deadline').value;
+
+            const order = { title, description, category, deadline };
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            alert('Ваш заказ успешно размещен!');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
